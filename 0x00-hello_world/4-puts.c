@@ -1,9 +1,10 @@
-#!/bin/bash <stdio.h>
+#include<stidio.h>
 /**
- *main * main entry point
- *return : always 0 ( success)
+ * msain - main block
+ * Return: 0
+ */
 int main(void)
 {
-	puts(*\*Programming is like building a multilingual puzzle*);
+	put("\"Programming is like building a multilingual puzzle");
 	return (0);
 }
