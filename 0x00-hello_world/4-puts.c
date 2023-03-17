@@ -1,6 +1,6 @@
 #include<stidio.h>
 /**
- * msain - main block
+ * main - main block
  *
  * Return: always 0 (success)
  */
