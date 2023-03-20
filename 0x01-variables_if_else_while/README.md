@@ -1,1 +1,7 @@
-Project done during **Full Stack Software Engineering studies** at **ALX School**. It aims to learn about arithmetic operators, relational operators, boolean operators, comments, declaring variables and loops in **C.
+C - Variables, if, else, while
+
+Positive anything is better than negative nothing:This program will assign a random number to the variable n each time it is executed.
+The last digit:This program will assign a random number to the variable n each time it is executed
+print alphabet.c: a program that prints the alphabet in lowercase, followed by a new line
+print alphabets.c:a program that prints the alphabet in lowercase, and then in uppercase, followed by a new line. 
+ 
