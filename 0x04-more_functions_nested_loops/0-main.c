@@ -8,7 +8,7 @@
  */
 int main(void)
 {
-0-main.cchar c;
+0 - main.cchar c;
 
 c = 'A';
 printf("%c: %d\n", c, _isupper(c));
