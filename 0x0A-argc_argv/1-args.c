@@ -1,13 +1,14 @@
 #include <stdio.h>
 /**
- * main- prints its name, followed by a new
- * @argc: number of argiment
- * @argv: the array argiment
- *
+ * main- prints number of aguments, followed by a new
+ * @argc: number of argument
+ * @argv: The arrays that hold the value of argument
  * Return: Always 0 (success)
  */
-int main(int argv __attribute__((unused)), char *argc[])
+int main(int argc __attribute__((unused)), char *argv[])
 {
-	printf("%s\n", *argc);
+	(void) argv; /*Ignore argv*/
+	printf("%d\n", argc - 1);
+
 	return (0);
 }
