@@ -11,7 +11,7 @@
 
 size_t listint_len(const listint_t *h)
 {
-	size_t A = 1;
+	size_t A = 0;
 	 listint_t *p =
 		 (listint_t *)h;
 
