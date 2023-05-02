@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 size_t looped_listint_len(const listint_t *head);
-size_t print_listint_safe(const listin_t *head);
+size_t print_listint_safe(const listint_t *head);
 
 /**
  * looped_listint_len - function to count number of uniqe nodes
@@ -50,21 +50,22 @@ size_t looped_listint_len(const listint_t *head)
 	}
 	return (0);
 	}
-
-	/**
-	 * print_listint_safe - Prints a listint_t list safely.
-	 * @head: Apointer to the head of the listin_t list.
-	 * Return: number of nodes in the list.
-	 */
+/** 
+ * print_listint_safe - Prints a listint_t list safely
+ * @head: A pointer to the head of listin_t list.
+ *
+ * Return: The number of nodes in the list.
+ */
 
 size_t print_listint_safe(const listint_t *head)
 	{
-		size_t nodes, index = 0;
+		size_t num, index = 0;
 
-		nodes = looped_listint_len(head);
+		num = looped_listint_len(head);
 
-		if (nodes == 0)
-			for (; head != NULL; nodes++)
+		if (num == 0)
+		{
+			for (; head != NULL; num++)
 			{
 				printf("[%p] %d\n", (void *)head, head->n);
 				head = head->next;
@@ -74,15 +75,15 @@ size_t print_listint_safe(const listint_t *head)
 	else
 
 	{
-		for (index = 0; index < nodes; index++)
+		for (index = 0; index < num; index++)
 
 		{
 			printf("[%p] %d\n", (void *)head, head->n);
 			head = head->next;
 		}
-		printf("->[%p] %d\n", void, head->n);
+		printf("->[%p] %d\n", (void *)head, head->n);
 	}
 
-	return (nodes);
+	return (num);
 
 	}
