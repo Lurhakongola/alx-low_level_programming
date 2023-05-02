@@ -35,8 +35,11 @@ size_t looped_listint_len(const listint_t *head)
 		slow = slow->next;
 		fast = fast->next;
 	}
+
 	slow = slow->next;
-	while (slow != fast)
+
+		while (slow != fast)
+
 		{
 			nodes++;
 			slow = slow->next;
@@ -50,7 +53,7 @@ size_t looped_listint_len(const listint_t *head)
 	}
 	return (0);
 	}
-/** 
+/**
  * print_listint_safe - Prints a listint_t list safely
  * @head: A pointer to the head of listin_t list.
  *
