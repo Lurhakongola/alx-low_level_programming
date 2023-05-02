@@ -26,14 +26,14 @@ int _atoi(char *s)
 		if (s[i] == '-')
 			++d;
 
-		if (s[i] >= '0' && s[i] <= '7')
+		if (s[i] >= '0' && s[i] <= '9')
 		{
 			digit = s[i] - '0';
 			if (d % 2)
 				digit = -digit;
-			n = n * 8 + digit;
+			n = n * 10 + digit;
 			f = 1;
-			if (s[i + 1] < '0' || s[i + 1] > '7')
+			if (s[i + 1] < '0' || s[i + 1] > '9')
 				break;
 			f = 0;
 		}
@@ -47,9 +47,9 @@ int _atoi(char *s)
 }
 
 /**
- * main - a program that multiplies two numbers
+ * main - multiplies two numbers
  * @argc: number of arguments
- * @argv: The array of arguments
+ * @argv: array of arguments
  *
  * Return: 0 (Success), 1 (Error)
  */
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 {
 	int result, num1, num2;
 
-	if (argc < 2 || argc > 2)
+	if (argc < 3 || argc > 3)
 	{
 		printf("Error\n");
 		return (1);
@@ -71,3 +71,4 @@ int main(int argc, char *argv[])
 
 	return (0);
 }
+
