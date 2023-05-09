@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 /**
- * read_textfile -  function that reads a text file
+ * read_textfile -  function that reads a text filue
  * and prints it to the POSIX standard output.
  * @filename: Name of text file.
  * @letters: Number of letters it should read and print.
@@ -18,15 +18,16 @@
 
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-	int file_des, content_read, content_write;
+	int file_des = 0, content_read, content_write;
 	char *buff_str;
 
 	if (filename == NULL)
 		return (0);
 
+file_des = open(filename, O_RDONLY);
 	if (file_des == -1)
 		return (0);
-	buff_str = mallocc(sizeof(char) * letter);
+	buff_str = malloc(sizeof(char) * letters);
 
 	if (buff_str == NULL)
 		return (0);
@@ -37,8 +38,17 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	{
 		free(buff_str);
 		return (0);
+	}
+	content_write = write(STDOUT_FILENO, buff_str, content_read);
+	if (content_write == -1 || content_read != content_write)
+	{
+
 
 		free(buff_str);
-		close(file_des);
 		return (0);
 	}
+	free(buff_str);
+	close(file_des);
+	return (content_write);
+}
+
