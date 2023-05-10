@@ -12,7 +12,7 @@ void check_elf(unsigned char *e_ident);
 void print_class(unsigned char *e_ident);
 void print_data(unsigned char *e_ident);
 void print_version(unsigned char *e_ident);
-void print_abit(unsigned char *e_ident);
+void print_abi(unsigned char *e_ident);
 void print_osabi(unsigned char *e_ident);
 void print_type(unsigned int e_type, unsigned char *e_ident);
 void print_entry(unsigned long int e_entry, unsigned char *e_ident);
@@ -36,7 +36,7 @@ void che_elf(unsigned char *e_ident)
 		    e_ident[index] != 'L' &&
 		    e_ident[index] != 'F')
 		{
-			dprint(STDER_FILENO, "Error: notan ELF file\n");
+			dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
 			exit(98);
 
 		}
@@ -50,8 +50,9 @@ void che_elf(unsigned char *e_ident)
 
 void print_class(unsigned char *e_ident)
 {
-	printf("class:
-			swicth (e_ident [EI_CLASS])
+printf("  Class:                             ");
+
+			switch (e_ident [EI_CLASS]);
 				{
 				case ELFCLASSNONE:
 				printf("none\n");
@@ -60,7 +61,7 @@ void print_class(unsigned char *e_ident)
 				printf("ELF32\n"
 						break;
 						case ELFCLASS64:
-						printf(ELF64\n");
+						printf("ELF64\n");
 						break;
 						default:
 						printf("unknown: %x>\n", e_ident[EI_CLASS]);
@@ -94,11 +95,12 @@ void print_magic(unsigned char *e_ident)
 /*
  * print_data - prints data oo an ELF header
  * @e_ident: Apointer to an array contening the ELF class
+ *
  */
-
 void print_data(unsigned char *e_ident)
 {
-	printf(" Data:
+printf("  Data:                              ");
+
 			switch (e_ident[EI_DATA])
 	{
 	case ELFDATANONE:
@@ -121,8 +123,9 @@ void print_data(unsigned char *e_ident)
 */
 
 void print_version(unsigned char *e_ident)
+
 {
-	print(" version:
+	print(" version:	%d",
 			e_ident[EI_VERSION]);
 
 	switch (e_ident[EI_VERSION])
@@ -144,7 +147,7 @@ void print_version(unsigned char *e_ident)
 
 void print_osabi(unsigned char *e_ident)
 {
-	print( " OS/ABI:
+	print( " OS/ABI:	");
 
 			swiwitch (e_ident[	ei_osabi]
 				{
@@ -233,8 +236,8 @@ void close_elf(int elf)
 * Description: If the file is not an ELF File or
 *              the function fails - exit code 98.
 */
+int main(int __attribute__((__unused__)) argc, char *argv[])
 
-int main(int_attribute__((__unused__)) argc, char *argv[])
 {
 	Elf64_ehdr *header;
 	int o, r;
@@ -244,7 +247,6 @@ int main(int_attribute__((__unused__)) argc, char *argv[])
 		dprintf(STDERR_FILEND, "Error: can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	}
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{
@@ -252,7 +254,8 @@ int main(int_attribute__((__unused__)) argc, char *argv[])
 		dprintf(STDERR_FILENO, "Error : Can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	r = read(o, header, sizeof(Elf64_Ehdr));
+r = read(o, header, sizeof(Elf64_Ehdr));
+
 	if (r == -1)
 	{
 		free(header);
@@ -265,15 +268,14 @@ che_elf(header->e_ident);
 print("ELF header :\n");
 print_magic(header->e_ident);
 print_class(header->e_ident);
-print_data(head->ident);
+print_data(header->ident);
 print_version(header->e_ident);
 print_osabi(header->e_ident);
-print_abi(header->ident);
-print_type(header->e_type, header->_ident);
+print_abi(header->e_ident);
+print_type(header->e_type, header->e_ident);
 print_entry(header->e_entry, header->e_ident);
 
 free(header);
 close_elf(o);
 return (0);
-
 }
