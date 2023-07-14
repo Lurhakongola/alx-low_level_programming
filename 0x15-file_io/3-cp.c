@@ -2,89 +2,103 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void cp(char *file_from, char *file_to);
-
-void _error(int e, char *filename);
+char *create_buffer(char *file);
+void close_file(int fd);
 
 /**
- * main - check whether the number of argument is the correct one
- * @c: count the arguments
- * @av: argument values
- * Return: if yes, 0, else, exits with error code 97.
- */
-int main(int c, char *av[])
+ * create_buffer - Allocates 1024 bytes for a buffer.
+ * @file: Name of the file buffer is storing chars for.
+ *
+ * Return: Pointer to the newly-allocated buffer.
+ **/
+char *create_buffer(char *file)
 {
-	if (c != 3)
+	char *buffer;
+
+	buffer = malloc(sizeof(char) * 1024);
+
+	if (buffer == NULL)
+	{
+		dprintf(STDERR_FILENO,
+			"Error: Can't write to %s\n", file);
+		exit(99);
+	}
+
+	return (buffer);
+}
+
+/**
+ * close_file - Closes file descriptors.
+ * @fd: The file descriptor to be closed.
+ */
+void close_file(int fd)
+{
+	int cl;
+
+	cl = close(fd);
+
+	if (cl == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
+}
+
+/**
+ * main - Copies the contents of a file to another file.
+ * @argc: Number of arguments.
+ * @argv: Array of pointers to the arguments.
+ *
+ * Return: 0 on success.
+ *
+ * Description: If the argument count is incorrect - exit code 97.
+ * If file_from does not exist or cannot be read - exit code 98.
+ * If file_to cannot be created or written to - exit code 99.
+ * If file_to or file_from cannot be closed - exit code 100.
+ */
+int main(int argc, char *argv[])
+{
+	int from, op, wrt, rd;
+	char *buffer;
+
+	if (argc != 3)
 	{
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
-	cp(av[1], av[2]);
+
+	buffer = create_buffer(argv[2]);
+	from = open(argv[1], O_RDONLY);
+	rd = read(from, buffer, 1024);
+	op = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+
+	do {
+		if (from == -1 || rd == -1)
+		{
+			dprintf(STDERR_FILENO,
+				"Error: Can't read from file %s\n", argv[1]);
+			free(buffer);
+			exit(98);
+		}
+
+		wrt = write(op, buffer, rd);
+		if (op == -1 || wrt == -1)
+		{
+			dprintf(STDERR_FILENO,
+				"Error: Can't write to %s\n", argv[2]);
+			free(buffer);
+			exit(99);
+		}
+
+		rd = read(from, buffer, 1024);
+		op = open(argv[2], O_WRONLY | O_APPEND);
+
+	} while (rd > 0);
+
+	free(buffer);
+	close_file(from);
+	close_file(op);
+
 	return (0);
 }
 
-/**
- * cp - Function that copies the content of a file to another file.
- * @file_from: source, we copy from
- * @file_to: we paste content here
- * Return: 1 on success, -1 on failure.
- */
-void cp(char *file_from, char *file_to)
-{
-	int fd_r, n_r, fd_w, n_w;
-	int c_flag = 1;
-	char buf[1024];
-
-	/* READ */
-	fd_r = open(file_from, O_RDONLY);
-	if (fd_r < 0)
-		_error(98, file_from);
-	/* WRITE */
-	fd_w = open(file_to, O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (fd_w < 0)
-	{
-		close(fd_r);
-		_error(99, file_to);
-	}
-	do {
-		/* READ */
-		n_r = read(fd_r, buf, 1024);
-		if (n_r < 0)
-			_error(98, file_from);
-		/* WRITE */
-		n_w = write(fd_w, buf, n_r);
-		if (n_w < n_r)
-			_error(99, file_to);
-	} while (n_w == 1024);
-	if (close(fd_r) < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_r);
-		c_flag = 0;
-	}
-	if (close(fd_w) < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_w);
-		c_flag = 0;
-	}
-	if (!c_flag)
-		exit(100);
-}
-
-/**
- * _error - Read file.
- * @e: Error number
- * @filename: File name
- */
-void _error(int e, char *filename)
-{
-	if (e == 98)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", filename);
-		exit(98);
-	}
-	if (e == 99)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
-		exit(99);
-	}
-}
