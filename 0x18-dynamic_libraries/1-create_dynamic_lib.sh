@@ -1,3 +1,3 @@
-#!/bi/bash
-gcc -wall -wextra -werror -pedatic -c -fPIC *.c
-export LD_LIBRARY_PATH=.:SLD_LIBRARY_PATH
+#!/bin/bash
+gcc -wall -wextra -werror -pedantic -c -fPIC *.c
+export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
